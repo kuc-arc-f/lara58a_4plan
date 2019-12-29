@@ -28,20 +28,31 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Home</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                     id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false">develop</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <a class="dropdown-item" href="/tasks">Task</a>
+                      <a class="dropdown-item" href="/books">Book</a>
+                      <a class="dropdown-item" href="/depts">Depts</a>
+                      <a class="dropdown-item" href="/members">Members</a>
+                    </div><!-- ./dropdown-menu -->
+                  </li>                
+
+                <!--
                 <li class="nav-item active">
                     <a class="nav-link" href="/tasks">Task</a>
                 </li>
-                <!--
                 <li class="nav-item active">
                     <a class="nav-link" href="/books">Book</a>
                 </li>                
-                -->
                 <li class="nav-item active">
                     <a class="nav-link" href="/depts">Depts</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="/members">Members</a>
                 </li>   
+                -->
                 <li class="nav-item active">
                     <a class="nav-link" href="/todos">Todos</a>
                 </li>  

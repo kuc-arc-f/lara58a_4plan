@@ -19,7 +19,10 @@
         <div class="form-group">
             {!! Form::label('content', '内容:', ['class' => 'col-sm-3 control-label']) !!}
             <div class="col-sm-6">
-                {{ $plan->content }}
+                <?php
+                $content = nl2br($plan->content);
+                echo($content);
+                ?>
             </div>
         </div>        
     </div>

@@ -2,8 +2,15 @@
 @section('title', '一覧')
 
 @section('content')
-<h1 style="margin: 8px 8px;">Plans: {{ $month }}</h1>
-{{ link_to_route('plans.create', 'Create' ,null, ['class' => 'btn btn-primary']) }}
+<br />
+<div class="row">
+    <div class="col-sm-6">
+        <h1>Plans: {{ $month }}</h1>
+    </div>
+    <div class="col-sm-6"  style="padding: 8px 8px; text-align: right;">
+        {{ link_to_route('plans.create', 'Create' ,null, ['class' => 'btn btn-primary']) }}
+    </div>
+</div>
 <hr />
 <div class="flex-center position-ref full-height">
     <div class="content">
@@ -55,7 +62,7 @@
 <!-- -->
 <style>
 .today{
-    background : #EEE;    
+    background : #B3E5FC;
 }
 .table .td_cls{
     width : 80px;

@@ -27,15 +27,13 @@ class PlansController extends Controller
     public function index(Request $request)
     {   
         $user_id = Auth::id();
-
+//debug_dump($user_id );
         $dt = new Carbon(self::getYm_firstday());
         $startDt = $dt->format('Y-m-d');
         $endDt = $dt->endOfMonth()->format('Y-m-d');
         $plans = Plan::where('user_id', $user_id)
         ->whereBetween("date", [$startDt, $endDt ])
         ->get(); 
-//debug_dump($startDt );
-//debug_dump($plans->toArray() );
         $month = $this->getMonth();
         $weeks = $this->getWeekItems();
         $weeks = $this->convert_plans($weeks , $plans);
@@ -56,6 +54,15 @@ class PlansController extends Controller
     /**************************************
      *
      **************************************/    
+    private function get_planDateExist($date, $user_id){
+        $plan = Plan::where('date', $date)
+        ->where("user_id", $user_id )
+        ->get();
+        return $plan->toArray();
+    }
+    /**************************************
+     *
+     **************************************/    
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -66,7 +73,14 @@ class PlansController extends Controller
         }
         $inputs = $request->all();
         $inputs["user_id"] = $user_id;
-//debug_dump( $inputs );
+        //valid
+        $checkPlan = $this->get_planDateExist($inputs["date"], $user_id);
+//debug_dump($inputs );
+        if(!empty($checkPlan)){
+            $errors =[];
+            $errors[] = $inputs["date"]. "は登録済です。";
+            return redirect()->back()->withErrors($errors)->withInput();
+        }
         $todo = new Plan();
         $todo->fill($inputs);
         $todo->save();
@@ -98,10 +112,18 @@ class PlansController extends Controller
     {
         $data = $request->all();
 //debug_dump($data );
-//exit();
         $task = Plan::find($id);
         $task->fill($data);
         $task->save();
+        return redirect()->route('plans.index');
+    }
+    /**************************************
+     *
+     **************************************/
+    public function destroy($id)
+    {
+        $plan = Plan::find($id);
+        $plan->delete();
         return redirect()->route('plans.index');
     }
      /**************************************

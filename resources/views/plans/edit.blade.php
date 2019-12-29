@@ -44,6 +44,15 @@
     </div>
     <hr />
     <br />
+    <div class="delete_wrap">
+    {{ Form::open(['route' => ['plans.destroy', $plan->id], 'method' => 'delete']) }}
+        {{ Form::hidden('id', $plan->id) }}
+        {{ Form::submit('削除', ['class' => 'btn btn btn-danger']) }}
+    {{ Form::close() }}        
+    </div>
+    <hr />
+
+    <br />
     <div class="panel-footer">
         {{ link_to_route('plans.index', '戻る') }}
     </div>
