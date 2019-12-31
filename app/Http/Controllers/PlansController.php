@@ -27,7 +27,6 @@ class PlansController extends Controller
     public function index(Request $request)
     {   
         $user_id = Auth::id();
-//debug_dump($user_id );
         $dt = new Carbon(self::getYm_firstday());
         $startDt = $dt->format('Y-m-d');
         $endDt = $dt->endOfMonth()->format('Y-m-d');
@@ -36,6 +35,7 @@ class PlansController extends Controller
         ->get(); 
         $month = $this->getMonth();
         $weeks = $this->getWeekItems();
+//debug_dump($weeks );
         $weeks = $this->convert_plans($weeks , $plans);
         $prev = $this->getPrev();
         $next = $this->getNext();
@@ -46,9 +46,15 @@ class PlansController extends Controller
      **************************************/
     public function create()
     {
+        $date = "";
+        if(isset($_GET['ymd'])){
+            $date = $_GET['ymd'];
+        }else{
+            $date = Carbon::now()->format('Y-m-d');
+        }
+//debug_dump( $date );
         $plan = new Plan();
-        $plan["date"] = Carbon::now()->format('Y-m-d');
-//debug_dump( $plan );
+        $plan["date"] = $date;
         return view('plans/create')->with('plan', $plan );
     }    
     /**************************************
@@ -179,10 +185,15 @@ class PlansController extends Controller
         );
         $dayItem = $dayArray;
         for($i =0; $i < $day_of_week ;$i++ ){ $weekItem[] = $dayItem; }
+
         for ($day = 1; $day <= $days_in_month; $day++, $day_of_week++) {
             $dayItem = $dayArray;
             $date = self::getYm() . '-' . $day;
+            $dt = new Carbon($date);
+            $tmpDate = $dt->format('Y-m-d');
+//debug_dump($tmpDate );
             $dayItem["day"] = $day;
+            $dayItem["date"] = $tmpDate;
             if (Carbon::now()->format('Y-m-j') === $date) {
                 $dayItem["today"] = true;
                 $weekItem[] = $dayItem;
@@ -191,11 +202,16 @@ class PlansController extends Controller
             }
             if (($day_of_week % 7 === 6) || ($day === $days_in_month)) {
                 if ($day === $days_in_month) {
+                    $dayItem = $dayArray;
                     $dayItem["day"] ="";
+                    $dayItem["today"] = false;
+//                    $dayItem["date"] = null;
                     $num =6 - ($day_of_week % 7);
-                    for($i =0; $i < $num ;$i++ ){ $weekItem[] = $dayItem; }
+                    for($i =0; $i < $num ;$i++ ){ 
+                        $weekItem[] = $dayItem; 
+                    }
+
                 }
-//var_dump($week);
                 $weeks[] = $weekItem;
                 $weekItem = [];
             }

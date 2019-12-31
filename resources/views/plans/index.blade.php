@@ -8,7 +8,7 @@
         <h1>Plans: {{ $month }}</h1>
     </div>
     <div class="col-sm-6"  style="padding: 8px 8px; text-align: right;">
-        {{ link_to_route('plans.create', 'Create' ,null, ['class' => 'btn btn-primary']) }}
+        {{ link_to_route('plans.create', '予定の作成' ,null, ['class' => 'btn btn-primary']) }}
     </div>
 </div>
 <hr />
@@ -36,21 +36,28 @@
                     $today_class = "none";
                     if($day["today"]){ $today_class = "today"; }
                     $day_content = mb_substr($day["content"], 0, 6 );
-                    //debug_dump($day );
                     ?>
                     <td class="{{ $today_class }} td_cls">
-                        <?php if(!empty($day["content"]) ){ ?>
+                        <?php if(!empty($day_content) ){ ?>
                             <a href="/plans/{{$day["id"]}}">
                             <div>
                                 {{ $day["day"] }}<br />
                                 <p class="content_text">{{ $day_content }}</p>
                             </div>
                             </a>  
-                            <a class="td_edit" href="/plans/{{$day["id"]}}/edit">[ 編集 ]
+                            <a class="btn btn-outline-primary btn-sm td_edit" href="/plans/{{$day["id"]}}/edit">編集
                             </a>                          
                         <?php }else{ ?>
-                            {{ $day["day"] }}<br />
-                            <p class="content_text">{{ $day_content }}</p>
+                            <?php if(isset($day["date"])){ ?>
+                                <a href="/plans/create?ymd={{$day["date"]}}">
+                                <div>
+                                    {{ $day["day"] }}<br />
+                                    <?php //var_dump($day["date"]); ?>
+                                    <br />
+                                    <br />
+                                </div>
+                                </a>
+                            <?php } ?>
                         <?php } ?>
                     </td>
                     @endforeach
@@ -69,12 +76,16 @@
     min-height : 60px;
 }
 .table .content_text{
-    /*     font-size : 0.8rem; */
     color : gray;
     font-size : 11pt;
+    margin : 8px 0px;
 }
 .table .td_edit{
     font-size : 11pt;
+    /*     margin : 8px: 8px; */
+}
+.table th{
+    text-align: center;
 }
 </style>
 @endsection
