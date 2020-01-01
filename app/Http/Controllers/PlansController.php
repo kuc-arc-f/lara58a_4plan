@@ -27,19 +27,25 @@ class PlansController extends Controller
     public function index(Request $request)
     {   
         $user_id = Auth::id();
+
         $dt = new Carbon(self::getYm_firstday());
         $startDt = $dt->format('Y-m-d');
+        $now_month= $dt->format('Y-m');
         $endDt = $dt->endOfMonth()->format('Y-m-d');
         $plans = Plan::where('user_id', $user_id)
         ->whereBetween("date", [$startDt, $endDt ])
         ->get(); 
+        
         $month = $this->getMonth();
         $weeks = $this->getWeekItems();
-//debug_dump($weeks );
+//debug_dump($now_month );
+//exit();
         $weeks = $this->convert_plans($weeks , $plans);
         $prev = $this->getPrev();
         $next = $this->getNext();
-        return view('plans/index')->with(compact('weeks','prev','next','month' ));
+        return view('plans/index')->with(compact(
+            'weeks','prev','next','month','now_month'
+         ));
     }
     /**************************************
      *

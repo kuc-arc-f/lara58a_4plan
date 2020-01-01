@@ -14,10 +14,16 @@
 <hr />
 <div class="flex-center position-ref full-height">
     <div class="content">
-        <div style="text-align: center; font-size : 1.4rem;">
-            <a href="?ym={{ $prev }}">&lt;</a>&nbsp;
-            <span class="month">{{ $month }}</span>&nbsp;
-            <a href="?ym={{ $next }}">&gt;</a>
+        <div class="month_move_wrap" style="text-align: center; font-size : 1.2rem;">
+                <a href="?ym={{ $prev }}"><i class="fas fa-arrow-circle-left"></i>
+                </a>&nbsp;
+                <label>
+                    <input type="month" id="month" name="month" value="{{$now_month}}"   />
+                </label>
+                <input type="button" onClick="changeMonth();" value="変更"
+                class="btn btn-outline-primary btn-sm td_edit">&nbsp;
+                <a href="?ym={{ $next }}"><i class="fas fa-arrow-circle-right"></i>
+                </a>&nbsp;
         </div>
         <table class="table table-bordered">
             <tr>
@@ -87,6 +93,25 @@
 .table th{
     text-align: center;
 }
+#month{
+    width : 180px;
+}
+.month_move_wrap .fa-arrow-circle-left{
+    font-size : 2.2rem;
+}
+.month_move_wrap .fa-arrow-circle-right{
+    font-size : 2.2rem;
+}
 </style>
+<!-- -->
+<script>
+function changeMonth(){
+    var nowMonth= $("#month").val();
+    var url = "/plans?ym=" +nowMonth;
+//    console.log( url );
+    location.href = url;
+}
+</script>
+
 @endsection
 	
