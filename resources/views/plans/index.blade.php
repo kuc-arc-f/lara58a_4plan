@@ -2,16 +2,17 @@
 @section('title', '一覧')
 
 @section('content')
-<br />
-<div class="row">
+<!-- <br /> -->
+<div class="row" style="margin-top: 10px;">
     <div class="col-sm-6">
-        <h1>Plans: {{ $month }}</h1>
+        <h3>Plans: {{ $month }}</h3>
     </div>
-    <div class="col-sm-6"  style="padding: 8px 8px; text-align: right;">
+    <!-- padding: 8px 8px; -->
+    <div class="col-sm-6"  style=" text-align: right;">
         {{ link_to_route('plans.create', '予定の作成' ,null, ['class' => 'btn btn-primary']) }}
     </div>
 </div>
-<hr />
+<hr class="mt-2 mb-2" />
 <div class="flex-center position-ref full-height">
     <div class="content">
         <div class="month_move_wrap" style="text-align: center; font-size : 1.2rem;">
@@ -21,7 +22,8 @@
                     <input type="month" id="month" name="month" value="{{$now_month}}"   />
                 </label>
                 <input type="button" onClick="changeMonth();" value="変更"
-                class="btn btn-outline-primary btn-sm td_edit">&nbsp;
+                class="btn btn-outline-primary btn-sm btn_change"
+                style="margin-bottom: 8px;">&nbsp;
                 <a href="?ym={{ $next }}"><i class="fas fa-arrow-circle-right"></i>
                 </a>&nbsp;
         </div>
@@ -70,6 +72,14 @@
                 </tr>
             @endforeach
         </table>
+        <br />
+        <br />
+        @include('element.page_info',
+        [
+            'git_url' => 'https://github.com/kuc-arc-f/lara58a_4plan',
+            'blog_url' => 'https://knaka0209.hatenablog.com/entry/lara58_11_plan'
+        ])
+
     </div><!-- content_end -->
 </div>
 <!-- -->
@@ -92,15 +102,17 @@
 }
 .table th{
     text-align: center;
+    padding: 8px;
 }
 #month{
     width : 180px;
 }
 .month_move_wrap .fa-arrow-circle-left{
-    font-size : 2.2rem;
+    /* font-size : 2.2rem; */
+    font-size : 1.8rem;
 }
 .month_move_wrap .fa-arrow-circle-right{
-    font-size : 2.2rem;
+    font-size : 1.8rem;
 }
 </style>
 <!-- -->

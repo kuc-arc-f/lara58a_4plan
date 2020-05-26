@@ -6,6 +6,8 @@
 
  date    : 2019/12/28
 
+ update : 2020/05/26
+
 ***
 
 Laravel 5.8 + mysql , plan/Schedule  app
@@ -30,4 +32,14 @@ php artisan serve
 https://knaka0209.hatenablog.com/entry/lara58_11_plan
 
 ***
+### UI
 
+* plan index, monthly display
+
+![ img-1 ](https://raw.githubusercontent.com/kuc-arc-f/screen-img/master/web/plan/ss-plan-index.png)
+
+* plan create
+
+![ img-1 ](https://raw.githubusercontent.com/kuc-arc-f/screen-img/master/web/plan/ss-plan-create.png)
+
+***
