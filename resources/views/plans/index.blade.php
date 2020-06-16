@@ -1,20 +1,34 @@
 @extends('layouts.app')
-@section('title', '一覧')
+@section('title', 'plan')
 
 @section('content')
 <!-- <br /> -->
 <div class="row" style="margin-top: 10px;">
-    <div class="col-sm-6">
-        <h3>Plans: {{ $month }}</h3>
+    <div class="col-sm-4">
+        <h3>Plan: {{ $month }}</h3>
     </div>
-    <!-- padding: 8px 8px; -->
-    <div class="col-sm-6"  style=" text-align: right;">
-        {{ link_to_route('plans.create', '予定の作成' ,null, ['class' => 'btn btn-primary']) }}
+    <div class="col-sm-5">
+        <div class="month_move_wrap" style="text-align: center; font-size : 1.2rem;">
+            <a href="?ym={{ $prev }}"><i class="fas fa-arrow-circle-left"></i>
+            </a>&nbsp;
+            <label>
+                <input type="month" id="month" name="month" value="{{$now_month}}"   />
+            </label>
+            <input type="button" onClick="changeMonth();" value="Change"
+            class="btn btn-outline-primary btn-sm btn_change"
+            style="margin-bottom: 8px;">&nbsp;
+            <a href="?ym={{ $next }}"><i class="fas fa-arrow-circle-right"></i>
+            </a>&nbsp;
+        </div>        
+    </div>
+    <div class="col-sm-3"  style=" text-align: right;">
+        {{ link_to_route('plans.create', 'Create' ,null, ['class' => 'btn btn-primary']) }}
     </div>
 </div>
-<hr class="mt-2 mb-2" />
 <div class="flex-center position-ref full-height">
     <div class="content">
+        <!--
+        <hr class="mt-2 mb-2" />
         <div class="month_move_wrap" style="text-align: center; font-size : 1.2rem;">
                 <a href="?ym={{ $prev }}"><i class="fas fa-arrow-circle-left"></i>
                 </a>&nbsp;
@@ -27,6 +41,7 @@
                 <a href="?ym={{ $next }}"><i class="fas fa-arrow-circle-right"></i>
                 </a>&nbsp;
         </div>
+        -->
         <table class="table table-bordered">
             <tr>
                 <th style="color :red;">日</th>
@@ -53,8 +68,14 @@
                                 <p class="content_text">{{ $day_content }}</p>
                             </div>
                             </a>  
+                            <a  href="/plans/{{$day["id"]}}/edit" class="btn btn-outline-primary btn-sm td_edit"
+                             data-toggle="tooltip" title="edit plan">
+                                <i class="far fa-edit"></i>
+                            </a>
+                            <!--
                             <a class="btn btn-outline-primary btn-sm td_edit" href="/plans/{{$day["id"]}}/edit">編集
                             </a>                          
+                            -->
                         <?php }else{ ?>
                             <?php if(isset($day["date"])){ ?>
                                 <a href="/plans/create?ymd={{$day["date"]}}">
