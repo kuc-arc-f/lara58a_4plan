@@ -32,6 +32,12 @@ php artisan serve
 https://knaka0209.hatenablog.com/entry/lara58_11_plan
 
 ***
+### version
+
+*  v0_9_1 brnach: beta version
+
+
+***
 ### UI
 
 * plan index, monthly display
