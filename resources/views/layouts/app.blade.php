@@ -53,10 +53,10 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/members">Members</a>
                 </li>   
-                -->
                 <li class="nav-item active">
                     <a class="nav-link" href="/todos">Todos</a>
                 </li>  
+                -->
                 <li class="nav-item active">
                     <a class="nav-link" href="/plans">Plans</a>
                 </li>                              

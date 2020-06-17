@@ -4,14 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-//
-class Todo extends Model
+class BbsPost extends Model
 {
-    //
     protected $fillable = [
         'user_id',
         'title',
         'content',
-        'complete',
-    ];
+        'display',        
+    ];    
 }

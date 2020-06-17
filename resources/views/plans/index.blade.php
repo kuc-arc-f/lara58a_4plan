@@ -14,7 +14,7 @@
             <label>
                 <input type="month" id="month" name="month" value="{{$now_month}}"   />
             </label>
-            <input type="button" onClick="changeMonth();" value="Change"
+            <input type="button" onClick="changeMonth();" value="Go"
             class="btn btn-outline-primary btn-sm btn_change"
             style="margin-bottom: 8px;">&nbsp;
             <a href="?ym={{ $next }}"><i class="fas fa-arrow-circle-right"></i>
@@ -23,6 +23,7 @@
     </div>
     <div class="col-sm-3"  style=" text-align: right;">
         {{ link_to_route('plans.create', 'Create' ,null, ['class' => 'btn btn-primary']) }}
+        {{ link_to_route('plans.week', 'Week' ,null, ['class' => 'btn btn-outline-primary']) }}
     </div>
 </div>
 <div class="flex-center position-ref full-height">

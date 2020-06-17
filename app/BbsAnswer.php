@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-//
-class Todo extends Model
+class BbsAnswer extends Model
 {
     //
     protected $fillable = [
+        'bbs_post_id',
         'user_id',
-        'title',
         'content',
-        'complete',
-    ];
+        'status',        
+    ]; 
+
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDeptsTable extends Migration
+class CreateChatMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateDeptsTable extends Migration
      */
     public function up()
     {
-        Schema::create('depts', function (Blueprint $table) {
+        Schema::create('chat_members', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name')->nullable(false);
+            $table->bigInteger('chat_id')->nullable(false);
+            $table->bigInteger('user_id')->nullable(false);
+            $table->text('token')->nullable()->comment('送信先トークン');          
             $table->timestamps();
         });
+        // ALTER TABLE chat_members COMMENT 'チャットのメンバー'
     }
 
     /**
@@ -27,6 +30,6 @@ class CreateDeptsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('depts');
+        Schema::dropIfExists('chat_members');
     }
 }

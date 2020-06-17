@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDeptsTable extends Migration
+class CreateBbsPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateDeptsTable extends Migration
      */
     public function up()
     {
-        Schema::create('depts', function (Blueprint $table) {
+        Schema::create('bbs_posts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name')->nullable(false);
+            $table->bigInteger('user_id')->nullable(false);
+            $table->string('title')->nullable(false);
+            $table->text('content')->nullable();
+            $table->integer('display')->nullable(false);
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ class CreateDeptsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('depts');
+        Schema::dropIfExists('bbs_posts');
     }
 }

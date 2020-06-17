@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePlansTable extends Migration
+class CreateBbsAnswersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreatePlansTable extends Migration
      */
     public function up()
     {
-        Schema::create('plans', function (Blueprint $table) {
+        Schema::create('bbs_answers', function (Blueprint $table) {
             $table->bigIncrements('id');
+//            $table->bigInteger('bbs_category_id')->nullable(false);
+            $table->bigInteger('bbs_post_id')->nullable(false);
             $table->bigInteger('user_id')->nullable(false);
-            $table->date('date')->nullable()->comment('予定の日付');
-            $table->text('content')->nullable()->comment('内容');;
+            $table->text('content')->nullable();
+            $table->integer('status')->nullable(false);
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreatePlansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plans');
+        Schema::dropIfExists('bbs_answers');
     }
 }

@@ -4,14 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-//
-class Todo extends Model
+class Message extends Model
 {
     //
     protected $fillable = [
         'user_id',
         'title',
         'content',
-        'complete',
+        'type',
+        'from_id',
+        'to_id',
     ];
+    
 }

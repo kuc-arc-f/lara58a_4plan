@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Plan;
 use App\User;
+use App\Libs\AppConst;
 
 use Carbon\Carbon;
 //
@@ -20,6 +21,7 @@ class PlansController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->WEEK_START_DATE = "";
     }    
     /**************************************
      *
@@ -38,15 +40,98 @@ class PlansController extends Controller
         
         $month = $this->getMonth();
         $weeks = $this->getWeekItems();
-//debug_dump($now_month );
-//exit();
         $weeks = $this->convert_plans($weeks , $plans);
+//debug_dump($weeks );
         $prev = $this->getPrev();
         $next = $this->getNext();
         return view('plans/index')->with(compact(
             'weeks','prev','next','month','now_month'
          ));
     }
+    /**************************************
+     * week plan
+     **************************************/
+    public function week(Request $request)
+    {   
+        $user_id = Auth::id();
+        $week_start = $this->get_weekStartDay();
+        $next = new Carbon($week_start->format('Y-m-d') );
+        $next = $next->addDay(7)->format('Y-m-d');
+        $prev = new Carbon($week_start->format('Y-m-d') );
+        $prev = $prev->subDay(7)->format('Y-m-d');
+      
+        $startDt = $week_start->format('Y-m-d');
+        $endDt = new Carbon($week_start->format('Y-m-d') );;
+        $endDt = $endDt->addDay(6);
+        $endDt = $endDt->format('Y-m-d');
+//debug_dump($this->WEEK_START_DATE );
+        $plans = Plan::where('user_id', $user_id)
+        ->whereBetween("date", [$startDt, $endDt ])
+        ->get(); 
+        
+        $weeks = $this->get_now_weeks();
+
+        $weeks = $this->convert_week_plans($weeks , $plans);
+        return view('plans/week')->with(compact(
+            'weeks','prev','next', 'startDt'
+         ));
+    }  
+    /**************************************
+     *
+     **************************************/
+    private function convert_week_plans($weeks , $plans){
+        $newWeeks = [];
+        foreach ($weeks as $day){
+            $dayItem = [];
+            $date = $day->format('Y-m-d');
+            $dayItem["date"] = $date;
+            $dayItem["day"] = $day->format('d');
+            $planArr = $this->get_planContent($date , $plans);
+            $dayItem["content"] = $planArr["content"];
+            $dayItem["id"] = $planArr["id"];
+            $dayItem["today"] = false;
+            if (Carbon::now()->format('Y-m-d') === $date){
+                $dayItem["today"] = true;
+            }
+//debug_dump( $planArr );
+            $newWeeks[] = $dayItem;
+        }
+        return $newWeeks;
+    }
+    /**************************************
+     *
+     **************************************/
+    private function get_weekStartDay(){
+        Carbon::setWeekStartsAt(Carbon::SUNDAY); // 週の最初を日曜日に設定
+        Carbon::setWeekEndsAt(Carbon::SATURDAY); // 週の最後を土曜日に設定
+        if (isset($_GET['ymd'])){
+            $now_str = $_GET['ymd'];
+        }else{
+            $now_str = Carbon::now()->format('Y-m-d');
+//$now_str = "2020-06-07";
+        }
+        $now = new Carbon($now_str);
+        $week_start = $now->startOfWeek();
+        $this->WEEK_START_DATE = $week_start->format('Y-m-d');
+//debug_dump("get_weekStartDay=" . $week_start->format('Y-m-d') );
+        return $week_start;       
+    }
+    /**************************************
+     *
+     **************************************/
+    private function get_now_weeks(){
+        $weeks = [];
+//debug_dump($this->WEEK_START_DATE  );
+        $week_start = new Carbon( $this->WEEK_START_DATE );
+        $weeks [] = $week_start;
+        $dayObj = $week_start;
+        for ($day = 0; $day <= 5; $day++) {
+            $dayObj = new Carbon($dayObj->format('Y-m-d') );
+            $weeks [] = $dayObj->addDay();
+        }
+        return $weeks;
+    }
+
     /**************************************
      *
      **************************************/
@@ -191,13 +276,14 @@ class PlansController extends Controller
         );
         $dayItem = $dayArray;
         for($i =0; $i < $day_of_week ;$i++ ){ $weekItem[] = $dayItem; }
+//debug_dump($day_of_week );
+//exit();
 
         for ($day = 1; $day <= $days_in_month; $day++, $day_of_week++) {
             $dayItem = $dayArray;
             $date = self::getYm() . '-' . $day;
             $dt = new Carbon($date);
             $tmpDate = $dt->format('Y-m-d');
-//debug_dump($tmpDate );
             $dayItem["day"] = $day;
             $dayItem["date"] = $tmpDate;
             if (Carbon::now()->format('Y-m-j') === $date) {

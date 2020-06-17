@@ -3,15 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
 //
-class Todo extends Model
+class ChatPost extends Model
 {
-    //
+
     protected $fillable = [
+        'chat_id',
         'user_id',
         'title',
-        'content',
-        'complete',
-    ];
+        'body',        
+    ];    
+
 }

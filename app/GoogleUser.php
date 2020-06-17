@@ -4,12 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Member extends Model
+class GoogleUser extends Model
 {
-    //
     protected $fillable = [
-        'name',
-        'dept_id',
-        'mail',
+		'email',
+		'name',		
+		'google_uid',		
     ];
 }
